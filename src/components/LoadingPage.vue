@@ -1,9 +1,17 @@
 <template>
   <div class="loading-page">
-    <!-- Animated Element (e.g., a spinning loader) -->
-    <div class="loader" v-if="!isLoaded"></div>
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline class="background-video">
+      <source src="/videos/videoplayback.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
 
-    <!-- Next Button -->
+    <!-- Loading Message -->
+    <div class="loading-content" v-if="!isLoaded">
+      <p>Loading...</p> <!-- Replace this with a spinner or logo if desired -->
+    </div>
+
+    <!-- "Next" Button -->
     <button v-if="isLoaded" @click="goToNextPage" class="next-button">
       Next
     </button>
@@ -12,22 +20,20 @@
 
 <script>
 export default {
-  watch: {
-  },
   data() {
     return {
-      isLoaded: false, // Tracks if the loading animation is complete
+      isLoaded: false, // Tracks if loading has completed
     };
   },
   mounted() {
-    // Simulate a loading time before showing the "Next" button
+    // Simulate loading delay before showing "Next" button
     setTimeout(() => {
       this.isLoaded = true;
-    }, 3000); // Adjust the time as needed (in milliseconds)
+    }, 3000); // Adjust delay as needed (milliseconds)
   },
   methods: {
     goToNextPage() {
-      this.$emit('navigate-next'); // Emit an event to parent to handle page transition
+      this.$emit("navigate-next"); // Emit event to parent for page transition
     },
   },
 };
@@ -35,25 +41,38 @@ export default {
 
 <style scoped>
 .loading-page {
+  /* position: absolute; */
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #f5f5f5;
+  overflow: hidden;
+  color: white;
 }
 
-.loader {
-  width: 60px;
-  height: 60px;
-  border: 8px solid #ccc;
-  border-top-color: #42b983;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures video covers the background */
+  z-index: -1; /* Places video behind other content */
+  pointer-events: none; /* Disable interactions with the video */
+}
+
+.loading-content {
+  position: relative;
+  z-index: 1; /* Ensure it's above the video */
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .next-button {
-  margin-top: 20px;
+  position: relative;
+  z-index: 1; /* Ensure it's above the video */
+  /* margin-top: 20px; */
   padding: 10px 20px;
   font-size: 16px;
   background-color: #42b983;
@@ -66,14 +85,5 @@ export default {
 
 .next-button:hover {
   background-color: #3a9d78;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

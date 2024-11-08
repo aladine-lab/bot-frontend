@@ -17,12 +17,12 @@ export default {
   },
   data() {
     return {
-      showLoadingPage: true, // Controls which page is shown
+      showLoadingPage: true, // Controls the loading page display
     };
   },
   methods: {
     navigateNext() {
-      this.showLoadingPage = false; // Switch to main content
+      this.showLoadingPage = false; // Hide the loading page, show main content
     },
   },
 };
@@ -34,8 +34,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0;
-}
-.main-content {
-  padding: 20px;
 }
 </style>
