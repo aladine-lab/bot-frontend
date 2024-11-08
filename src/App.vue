@@ -1,30 +1,41 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <LoadingPage v-if="showLoadingPage" @navigate-next="navigateNext" />
+    <div v-else class="main-content">
+      <h1>Welcome to the Main Page!</h1>
+      <!-- Main app content goes here -->
+    </div>
+  </div>
 </template>
+
+<script>
+import LoadingPage from "./components/LoadingPage.vue";
+
+export default {
+  components: {
+    LoadingPage,
+  },
+  data() {
+    return {
+      showLoadingPage: true, // Controls which page is shown
+    };
+  },
+  methods: {
+    navigateNext() {
+      this.showLoadingPage = false; // Switch to main content
+    },
+  },
+};
+</script>
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 0;
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.main-content {
+  padding: 20px;
 }
 </style>
