@@ -1,38 +1,34 @@
 <template>
   <div id="app">
-    <LoadingPage v-if="showLoadingPage" @navigate-next="navigateNext" />
-    <div v-else class="main-content">
-      <h1>Welcome to the Main Page!</h1>
-      <!-- Main app content goes here -->
-    </div>
+    <LoadingPage v-if="showLoadingPage" @navigate-next="showLoginPage" />
+    <LoginPage v-else @login-success="handleLoginSuccess" />
   </div>
 </template>
 
 <script>
 import LoadingPage from "./components/LoadingPage.vue";
+import LoginPage from "./components/LoginPage.vue";
 
 export default {
   components: {
     LoadingPage,
+    LoginPage,
   },
   data() {
     return {
-      showLoadingPage: true, // Controls the loading page display
+      showLoadingPage: true, // Initially shows loading page
+      user: null, // Store logged-in user data
     };
   },
   methods: {
-    navigateNext() {
-      this.showLoadingPage = false; // Hide the loading page, show main content
+    showLoginPage() {
+      this.showLoadingPage = false; // Switch to LoginPage
+    },
+    handleLoginSuccess(user) {
+      this.user = user; // Store user data from Telegram login
+      console.log("User logged in:", user);
+      // Handle navigation or any other action after login
     },
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 0;
-}
-</style>
